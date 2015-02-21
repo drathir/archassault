@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=aespipe
+Comment=Reads data from stdin and outputs encrypted or decrypted results to stdout
+Exec=bz2aespipe
+Icon=archassault-menu.png
+Terminal=true
+Categories=Utility;Encryption;

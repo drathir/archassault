@@ -15,4 +15,5 @@ sha512sums=('f3b34fc94a8f41b3c1d770fc63501c690d146bb5f563901f94895d1ec4b98493ff4
 package() {
   cd "$srcdir"
   install -Dm755 "$srcdir/0trace.py" "$pkgdir/usr/bin/0trace"
+  install -Dm644 ${pkgname}.desktop "${pkgdir}/usr/share/applications/${pkgname}.desktop"
 }

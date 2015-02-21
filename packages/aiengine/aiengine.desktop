@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=aiengine
+Comment=A packet inspection engine with capabilities of learning without any human intervention.
+Exec=aiengine
+Icon=archassault-menu.png
+Terminal=true
+Categories=Utility;Networking;

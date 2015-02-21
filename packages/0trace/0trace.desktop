@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=0trace
+Comment=A hop enumeration tool
+Exec=0trace
+Icon=
+Terminal=true
+Categories=Utility;Scanner;

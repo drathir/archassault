@@ -31,4 +31,5 @@ build() {
 package() {
   cd $srcdir/aiengine-$pkgver
   make DESTDIR=$pkgdir install
+  install -Dm644 ${pkgname}.desktop "${pkgdir}/usr/share/applications/${pkgname}.desktop"
 }

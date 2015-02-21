@@ -39,4 +39,5 @@ package() {
 
     make DESTDIR="${pkgdir}" install
     install -Dm755 bz2aespipe "${pkgdir}/usr/bin/bz2aespipe"
+    install -Dm644 ${pkgname}.desktop "${pkgdir}/usr/share/applications/${pkgname}.desktop"
 }
