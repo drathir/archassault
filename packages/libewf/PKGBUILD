@@ -1,24 +1,30 @@
 # Maintainer: ArchAssault <team archassault org>
+# Contributor: Jaroslav Lichtblau <dragonlord@aur.archlinux.org>
+# Contributor: kfgz <kfgz at interia pl>
+# Contributor: Adam Wolk <netprobe at gmail dot com>
+
 pkgname=libewf
 pkgver=20140608
-pkgrel=1
-groups=('archassault' 'archassault-forensic')
+pkgrel=3
+epoch=2
 pkgdesc="A library for support of the Expert Witness Compression Format (EWF)"
-url='https://code.google.com/p/libewf/'
-license=('LGPL3')
 arch=('i686' 'x86_64' 'armv6h' 'armv7h')
-depends=('util-linux' 'openssl' 'bzip2')
-options=(!libtool)
-source=("https://github.com/ArchAssault-Project/libewf/archive/v.$pkgver.zip")
-sha512sums=('d16d6fb2b73a5950ff951aa0fefca8b30f77fb35c5cc25f2f73d4cd796dd293477f84049ea79856bff7104a931ff4c32fe05119ba519edf3dd338b949f0b1385')
+url="https://github.com/libyal/libewf/"
+license=('LGPL3')
+makedepends=('fuse')
+depends=('util-linux' 'fuse' 'python2')
+options=('!libtool')
+source=(https://googledrive.com/host/0B3fBvzttpiiSMTdoaVExWWNsRjg/$pkgname-$pkgver.tar.gz)
+sha256sums=('d14030ce6122727935fbd676d0876808da1e112721f3cb108564a4d9bf73da71')
 
 build() {
-  cd "$srcdir/libewf-v.$pkgver"
-  ./configure --prefix=/usr --sysconfdir=/etc
+  cd "${srcdir}"/$pkgname-$pkgver
+  ./configure --prefix=/usr --sysconfdir=/etc --enable-python
   make
 }
 
 package() {
-  cd "$srcdir/libewf-v.$pkgver"
+  cd "${srcdir}"/$pkgname-$pkgver
+
   make DESTDIR="${pkgdir}" install
 }

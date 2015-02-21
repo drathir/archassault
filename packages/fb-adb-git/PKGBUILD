@@ -2,39 +2,60 @@
 
 _pkgname=fb-adb
 pkgname=${_pkgname}-git
-pkgver=20140815.r70.8367d9b
+pkgver=20141222.r98.d170b16
 pkgrel=1
 pkgdesc="A better shell to use in place of adb when connecting to Android devices"
-url="https://github.com/facebook/${_pkgname}"
+url="https://github.com/facebook/fb-adb"
 license=('GPL3')
 arch=('i686' 'x86_64')
 depends=('android-tools')
-makedepends=('git' 'android-ndk' 'prelink' 'zip')
+makedepends=('git' 'prelink' 'zip')
 options=('!strip' '!buildflags')
 install=${pkgname}.install
 
-source=("git+${url}.git#branch=master")
-sha512sums=('SKIP')
+_ndkver=10d
+_source=("git+${url}.git#branch=master")
+_sha512sums=('SKIP')
+if [[ "$CARCH" = "i686" ]]; then
+    _source+=("android-ndk.bin::http://dl.google.com/android/ndk/android-ndk-r${_ndkver}-linux-x86.bin")
+    _sha512sums+=('8d66229f6f07d6fba00650a96267c3c4a8308d296d9f13aa359af34ad49f57ba3a02e39f14d2b04609816e5f28ed939e71024043a0f08dc3711895a42e39f771')
+else
+    _source+=("android-ndk.bin::http://dl.google.com/android/ndk/android-ndk-r${_ndkver}-linux-${CARCH}.bin")
+    _sha512sums+=('b2ba10d7757ed7189b4e6dc2ecd38fce0c32dc6701151542b9e225e890faee84dded30dd4e907b0e42473e2a6df8ef4d46f37514edc270a04e1129d9c9e677fa')
+fi
+source=(${_source[@]})
+sha512sums=(${_sha512sums[@]})
 
 pkgver() {
     cd $_pkgname
     printf "%s.r%s.%s" "$(git show -s --format=%ci master | sed 's/\ .*//g;s/-//g')" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
+prepare() {
+    chmod 755 android-ndk.bin
+    ./android-ndk.bin
+}
+
 build() {
-    export ANDROID_NDK=/opt/android-ndk
+    export ANDROID_NDK="$srcdir"/android-ndk-r${_ndkver}
+
+    # configure
     cd $_pkgname
     ./autogen.sh
-    mkdir build
+
+    # build
+    install -d build
     cd build
     ../configure
     make
-    execstack -c ${_pkgname}
+
+    # compress android deployment binary
     cd stub-arm
     zip ${_pkgname}-android-arm.zip ${_pkgname}
 }
 
 package() {
-    install -Dm755 ${_pkgname}/build/${_pkgname} "${pkgdir}/usr/bin/${_pkgname}"
-    install -Dm755 ${_pkgname}/build/stub-arm/${_pkgname}-android-arm.zip "${pkgdir}/usr/share/${_pkgname}/${_pkgname}-android-arm.zip"
+    install -Dm755 ${_pkgname}/build/${_pkgname} "$pkgdir"/usr/bin/${_pkgname}
+    install -Dm755 ${_pkgname}/build/stub-arm/${_pkgname}-android-arm.zip "$pkgdir"/usr/share/${_pkgname}/${_pkgname}-android-arm-${pkgver}.zip
+    echo "Extract '${_pkgname}-android-arm-${pkgver}.zip' and copy 'fb-adb' to '/system/bin/fb-adb' on your Android device" > "$pkgdir"/usr/share/${_pkgname}/README
 }

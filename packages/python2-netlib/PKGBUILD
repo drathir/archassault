@@ -1,16 +1,17 @@
 # Maintainer: ArchAssault <team@archassault.org>
 pkgname=python2-netlib
-pkgver=0.10
+pkgver=0.11.1
 pkgrel=1
 pkgdesc="A collection of network utilities used by pathod and mitmproxy"
 url="http://cortesi.github.com/netlib"
 license=('MIT')
 arch=('any')
-depends=("python2")
-source=("http://pypi.python.org/packages/source/n/netlib/netlib-$pkgver.tar.gz")
-sha512sums=('e6897a1ba28942eb30f19b4876bf1fcc03a83ec619e162ee09d9c3ad3348cfaebf9b413fdc4c534c56342270c0c767f16b63b79efe51d6589e864e9b51742f4a')
+depends=('python2' 'java-environment')
+makedepends=('python2-setuptools')
+source=("http://pypi.python.org/packages/source/n/netlib/netlib-${pkgver}.tar.gz")
+sha512sums=('1682bd73d0ff592ad8ec4a79c1f4acd1267440ad0d120a5693f66fd94bfa10b40fdec69b4d43052952a3ecf64d27cb928fd3e5747f54acc419e50c3e1d3b4fbe')
 
 package() {
-  cd "$srcdir/netlib-$pkgver"
-  python2 setup.py install --root="$pkgdir" --optimize=1
+  cd "${srcdir}/netlib-${pkgver}"
+  python2 setup.py install --root="${pkgdir}" --optimize=1
 }

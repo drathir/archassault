@@ -5,24 +5,25 @@
 
 _pkgname=tox
 pkgname=${_pkgname}-git
-_pkgver=12cada5
-pkgver=r2681.12cada5
+_pkgver=dd59d99
+pkgver=r3040.dd59d99
 pkgrel=1
 epoch=1
 pkgdesc="Secure, configuration-free, P2P Skype replacement backend"
 arch=('i686' 'x86_64' 'armv6h' 'armv7h')
-url="https://${_pkgname}.im/"
+url="https://tox.im/"
 license=('GPL3')
 depends=('libsodium' 'opus' 'libvpx')
-makedepends=('git' 'autoconf' 'automake' 'check' 'libtool')
+makedepends=('git' 'check')
 optdepends=('qtox-git: qt-based frontend'
+            'utox-git: lightweight tox client'
             'venom-git: gtk/vala-based frontend'
             'toxic-git: ncurses-based frontend')
 conflicts=("$_pkgname")
 provides=("$_pkgname")
 replaces=("$_pkgname")
 
-source=("${pkgname}::git://github.com/irungentoo/${_pkgname}core.git#commit=${_pkgver}")
+source=("$pkgname"::"git://github.com/irungentoo/toxcore.git#commit=${_pkgver}")
 sha512sums=('SKIP')
 
 pkgver() {
